@@ -7,7 +7,8 @@
 ##ES工作的IP和端口，自行修改
 IP='8.131.65.73'
 PORT='9200'
-
+USER='elastic'
+PASSWD='123456'
 
 #要查询的字符串,请用单引号或者双引号括起来要查询的内容,防止出错
 SEARCH_STRING=$1
@@ -16,8 +17,8 @@ SEARCH_STRING=$1
 STRING2='{   "query": {     "match": {       "command": {         "query": "'${SEARCH_STRING}'",         "minimum_should_match": "75%"       }     }   },  "_source": [ "command", "comment" ] }'
 
 ##根据模糊字符串   搜索近似命令,存储起来处理
-#curl -uelastic:1234567# -XGET "http://$IP:$PORT/commandslist/_search?pretty" -H 'Content-Type: application/json' -d"$STRING2"  2>/dev/null  
-curl -uelastic:1234567# -XGET "http://$IP:$PORT/commandslist/_search?pretty" -H 'Content-Type: application/json' -d"$STRING2"  2>/dev/null  | egrep -w '"command"|"comment"|"_id"'  > /tmp/tmp_command_comment.txt
+#curl -u$USER:$PASSWD -XGET "http://$IP:$PORT/commandslist/_search?pretty" -H 'Content-Type: application/json' -d"$STRING2"  2>/dev/null  
+curl -u$USER:$PASSWD -XGET "http://$IP:$PORT/commandslist/_search?pretty" -H 'Content-Type: application/json' -d"$STRING2"  2>/dev/null  | egrep -w '"command"|"comment"|"_id"'  > /tmp/tmp_command_comment.txt
 #
 ##无匹配结果直接退出
 LINES=`wc -l /tmp/tmp_command_comment.txt | awk -F ' ' '{print $1}'`
@@ -61,7 +62,7 @@ if [ "$LINE_NUM" -gt 0 -a $LINE_NUM -le $SUMARY  ] 2>/dev/null ;then
     ID=`sed -n "${LINE_NUM}p" /tmp/tmp_id.txt | awk -F '"_id" : "'  '{print $2}'| sed 's/.$//'|sed 's/\"//'` #"command" : "ps ef | grep tomcat"#输出文件的第n行
     echo -e "\033[42;37m ${COMMAND} => ${ID}\033[0m"
     read -p "执行删除Y/y:" EXECUTE 
-    [ "$EXECUTE" == "Y" -o "$EXECUTE" == "y" -o "$EXECUTE" == "yes" -o "$EXECUTE" == "YES" -o "$EXECUTE" == "Yes" ]  && curl -u elastic:1234567\# -XDELETE "http://$IP:$PORT/commandslist/_doc/${ID}"
+    [ "$EXECUTE" == "Y" -o "$EXECUTE" == "y" -o "$EXECUTE" == "yes" -o "$EXECUTE" == "YES" -o "$EXECUTE" == "Yes" ]  && curl -u $USER:Fukaili9259\# -XDELETE "http://$IP:$PORT/commandslist/_doc/${ID}"
 else 
     echo '重新输入！！' 
 fi
