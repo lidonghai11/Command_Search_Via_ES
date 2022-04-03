@@ -4,7 +4,7 @@
 官网:https://www.elastic.co/guide/cn/elasticsearch/guide/current/running-elasticsearch.html
 2、提前将脚本中使用到的索引创建好，mapping已经给出，在下边
 3、将脚本中Elasticsearch的地址改成自己的，用户名和密码也改成自己的
-4、测试即可，EA.sh 用来记录命令、ED.sh 用来删除命令 、ES.sh 用来搜索命令、EC.sh 也是用来搜索命令（搜索的字段不一样而已）
+4、测试即可，EA.sh 用来记录命令、ED.sh 用来删除命令 、ES.sh 用来搜索命令、EC.sh 也是用来搜索命令（搜索的字段不一样而已）、HISTORY_ADD_ES.sh 用来采集服务器上的history命令并发送到ES中存储
 
 
 
